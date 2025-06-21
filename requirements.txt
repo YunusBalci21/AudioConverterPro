@@ -1,0 +1,4 @@
+Flask==2.3.3
+yt-dlp==2024.1.14
+ffmpeg-python==0.2.0
+werkzeug==2.3.7

@@ -6,26 +6,28 @@
   <title>Audio Converter Pro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: 'Inter', sans-serif;
       background: #1a1c2c;
       color: #fff;
-      overflow: hidden;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
     }
 
-    #interactive-bg {
+    #particles-js {
       position: fixed;
+      width: 100%;
+      height: 100%;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
       z-index: -1;
     }
 
     header {
       text-align: center;
-      padding: 80px 20px 40px;
+      padding: 100px 20px 40px;
     }
 
     header h1 {
@@ -111,14 +113,14 @@
   </style>
 </head>
 <body>
-  <canvas id="interactive-bg"></canvas>
+  <div id="particles-js"></div>
 
   <header>
     <h1>🎵 Audio Converter Pro</h1>
     <p>A modern, powerful desktop tool to convert audio files and download high-quality music from YouTube. Built for creators, modders, and enthusiasts.</p>
     <div class="buttons">
       <a class="btn" href="https://drive.google.com/uc?export=download&id=1199rpCbRgxTWqwRO59NFJtz_FdoxIEhq" download>💾 Download ZIP</a>
-      <a class="btn" href="https://github.com/YunusBalci21/audio_converter" target="_blank">📚 View Source Code</a>
+      <a class="btn" href="https://github.com/YunusBalci21/AudioConverterPro" target="_blank">📚 View Source Code</a>
     </div>
   </header>
 
@@ -155,67 +157,31 @@
     Made by <a href="https://www.linkedin.com/in/yunus-emre-balci/" target="_blank">Yunus Emre Balci</a>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    const canvas = document.getElementById('interactive-bg');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let particles = [];
-    const numParticles = 75;
-
-    class Particle {
-      constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.radius = Math.random() * 2 + 1;
-        this.dx = Math.random() * 2 - 1;
-        this.dy = Math.random() * 2 - 1;
-        this.opacity = Math.random() * 0.5 + 0.2;
-      }
-      update() {
-        this.x += this.dx;
-        this.y += this.dy;
-        if (this.x < 0 || this.x > canvas.width) this.dx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.dy *= -1;
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-        ctx.fill();
-      }
-    }
-
-    function initParticles() {
-      particles = [];
-      for (let i = 0; i < numParticles; i++) {
-        particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
-      }
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animate);
-    }
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      initParticles();
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80 },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5 },
+        size: { value: 3 },
+        line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2 }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" }
+        },
+        modes: {
+          repulse: { distance: 100 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
     });
-
-    canvas.addEventListener('mousemove', e => {
-      particles.push(new Particle(e.clientX, e.clientY));
-      if (particles.length > numParticles) particles.shift();
-    });
-
-    initParticles();
-    animate();
   </script>
 </body>
 </html>

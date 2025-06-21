@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Converter Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #1a1c2c;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    #interactive-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    header {
+      text-align: center;
+      padding: 80px 20px 40px;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 20px;
+      opacity: 0.9;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .btn {
+      background-color: #fcd34d;
+      color: #1f2937;
+      font-weight: 600;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #fbbf24;
+    }
+
+    section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #fcd34d;
+    }
+
+    section p {
+      font-size: 1rem;
+      line-height: 1.6;
+      opacity: 0.95;
+    }
+
+    ul {
+      text-align: left;
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      padding: 40px 20px;
+    }
+
+    footer a {
+      color: #fcd34d;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="interactive-bg"></canvas>
+
+  <header>
+    <h1>🎵 Audio Converter Pro</h1>
+    <p>A modern, powerful desktop tool to convert audio files and download high-quality music from YouTube. Built for creators, modders, and enthusiasts.</p>
+    <div class="buttons">
+      <a class="btn" href="https://drive.google.com/uc?export=download&id=1199rpCbRgxTWqwRO59NFJtz_FdoxIEhq" download>💾 Download ZIP</a>
+      <a class="btn" href="https://github.com/YunusBalci21/audio_converter" target="_blank">📚 View Source Code</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>✨ Features</h2>
+    <ul>
+      <li>Convert audio to MP3, OGG, WAV, FLAC, AAC, M4A, Opus, and WMA formats</li>
+      <li>Download and extract high-quality audio from YouTube videos</li>
+      <li>Preset options for game modding, mobile compression, and studio quality</li>
+      <li>Clean and responsive GUI with drag-and-drop support</li>
+      <li>Portable - no installation required</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔧 How It Works</h2>
+    <p>
+      Audio Converter Pro uses <strong>FFmpeg</strong> and <strong>yt-dlp</strong> under the hood to ensure the fastest and most reliable audio conversion possible. 
+      Whether you're a game modder needing `.ogg` files or someone looking to archive music in `.flac` — it’s just a few clicks away.
+    </p>
+  </section>
+
+  <section>
+    <h2>🚀 Get Started</h2>
+    <p>
+      Simply download the ZIP file above, extract it, and run <code>AudioConverterPro.exe</code>. No installation or admin rights needed.
+    </p>
+    <p>
+      For full source code or to contribute, visit the GitHub repository linked above.
+    </p>
+  </section>
+
+  <footer>
+    Made by <a href="https://www.linkedin.com/in/yunus-emre-balci/" target="_blank">Yunus Emre Balci</a>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('interactive-bg');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+    const numParticles = 75;
+
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.radius = Math.random() * 2 + 1;
+        this.dx = Math.random() * 2 - 1;
+        this.dy = Math.random() * 2 - 1;
+        this.opacity = Math.random() * 0.5 + 0.2;
+      }
+      update() {
+        this.x += this.dx;
+        this.y += this.dy;
+        if (this.x < 0 || this.x > canvas.width) this.dx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.dy *= -1;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < numParticles; i++) {
+        particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    });
+
+    canvas.addEventListener('mousemove', e => {
+      particles.push(new Particle(e.clientX, e.clientY));
+      if (particles.length > numParticles) particles.shift();
+    });
+
+    initParticles();
+    animate();
+  </script>
+</body>
+</html>
